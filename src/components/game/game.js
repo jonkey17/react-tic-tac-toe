@@ -1,5 +1,6 @@
 import React from 'react';
-import Board from './board';
+import Board from '../board/board';
+import './game.css';
 
 class Game extends React.Component {
   constructor(props) {
@@ -55,7 +56,7 @@ class Game extends React.Component {
 
     let status;
     if(winner){
-      status = 'Winner: ' + winner;
+      status = 'Winner: ' + current.squares[winner[0]];
     }else{
       status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
     }
@@ -65,7 +66,9 @@ class Game extends React.Component {
         <div className="game-board">
           <Board 
           squares={current.squares}
-          onClick={(i)=> this.handleClick(i)}/>
+          onClick={(i)=> this.handleClick(i)}
+          winner={winner}
+        />
         </div>
         <div className="game-info">
           <div>{status}</div>
@@ -92,7 +95,7 @@ function calculateWinner(squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      return lines[i];
     }
   }
   return null;
